@@ -1,6 +1,6 @@
 {% extends "nav-foot.html" %}
 {% load static %}
-{% block style %} <link rel="stylesheet" href="{% static 'style/postDetal.css' %}"> {% endblock style %}
+{% block style %} <link rel="stylesheet" href="{% static 'style/post-detail.css' %}"> {% endblock style %}
 {% block title %} {{ post.title }} {% endblock title %}
 {% block content %}
 <div class="top">
@@ -15,10 +15,10 @@
 </div>
 <div class="bot">
     <div class="category">
-        <h5>Katigoriya: {{ post.catagory }}</h5>
+        <h5>Katigoriya: {{ post.category }}</h5>
     </div>
     <div class="desc">
-        <p>{{ post.describetion }}</p>
+        <p>{{ post.description }}</p>
     </div>
 </div>
 {% endblock content %}

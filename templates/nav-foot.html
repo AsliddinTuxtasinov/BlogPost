@@ -18,31 +18,33 @@
     <header>
         <div class="container">
 
-            <nav class="navbar navbar-expand-lg navbar-light bg-light" id="nav">
+            <nav class="navbar navbar-expand-lg navbar-light" id="nav" style="background-color: #e3f2fd;">
                 <div class="container-fluid">
-                  <a class="navbar-brand" href="/">Asliddin</a>
+                  <a class="navbar-brand" href="{% url 'index' %}">Blog-site</a>
                   <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                   </button>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="/">All</a>
+                                <a class="nav-link active" aria-current="page" href="{% url 'index' %}">All</a>
                             </li>
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Catagorys
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Catagories
                                 </a>
                                 <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     
-                                    {% for cata in catagory %}
-                                        <li><a class="dropdown-item" href="{{ cata.get_url_post }}">{{cata.catagory|title}}</a></li>
+                                    {% for cata in category %}
+                                        <li>
+                                            <a class="dropdown-item" href="{{ cata.get_absolute_url }}">{{cata.category|title}}</a>
+                                        </li>
                                     {% endfor %}
 
                                 </ul>
                             </li>
                         </ul>
-                        <form class="d-flex" method="GET" action="{% url 'search_post' %}">
-                            <input class="form-control me-2" type="search" placeholder="qaysi catagorya boyicha qidiryapsiz ?" aria-label="Search" name="search">
+                        <form class="d-flex" method="GET">
+                            <input class="form-control me-2" type="search" placeholder="search..." aria-label="Search" name="q" value="{{ search_query }}">
                             <button class="btn btn-outline-success" type="submit">Search</button>
                         </form>
                     </div>
@@ -53,19 +55,15 @@
     </header>
 
     <!-- start main part -->
-    <main>
+    <main class="container">
         <!-- start content -->
-        <div class="container">
-            {% block content %}{% endblock content %}
-        </div>
+        {% block content %}{% endblock content %}
     </main>
 
     <!-- start footer part -->
-    <footer>
-        <div class="container">
-            <div class="foot">
-                <h5>Asliddin Tuxtasinov</h5>
-            </div>
+    <footer class="container">
+        <div class="foot">
+            <h5>Blog site</h5>
         </div>
     </footer>
     

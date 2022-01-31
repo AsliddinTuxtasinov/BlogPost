@@ -1,50 +1,45 @@
-from django.shortcuts import render
-from main.models import Catagory, Post
-from django.db.models import Q
+from django.shortcuts import render, get_object_or_404
+from django.views import View
+from .models import Category, Post
 
 
-def index(request):
-    posts = Post.objects.all()
-    catagory = Catagory.objects.all()
+class Homepage(View):
+    def get(self, request):
+        category = Category.objects.all()
+        posts = Post.objects.all().order_by('-id')
 
-    template_name = "index.html"
-    return render(request, template_name, {
-        "posts":posts,
-        "catagory":catagory
-    })
+        search_query = request.GET.get("q", "")
+        if search_query:
+            posts = Post.objects.filter(title__icontains=search_query).order_by('id')
 
-def search(request):
-    if 'search' in request.GET:
-        q = request.GET['search']
-        posts = Post.objects.filter(catagory__icontains = q)
-    else:
-        posts = Post.objects.all()
+        context = {
+            "posts": posts,
+            "category": category,
+            "search_query": search_query
+        }
+        return render(request, "index.html", context)
 
-    catagory = Catagory.objects.all()
-            
-    template_name = "index.html"
-    return render(request, template_name, {
-        "posts":posts,
-        "catagory":catagory
-    })
 
-def catagorySlug(request, slug):
-    posts = Post.objects.filter(catagory=slug)
-    print(posts)
-    catagory = Catagory.objects.all()
+class HompageViaCategoryView(View):
+    def get(self, request, slug):
+        cat = get_object_or_404(Category, slug_category=slug)
+        posts = Post.objects.filter(category=cat).order_by('id')
+        category = Category.objects.all()
 
-    template_name = "index.html"
-    return render(request,template_name, {
-        "posts":posts,
-        "catagory":catagory
-    })
+        context = {
+            "posts": posts,
+            "category": category
+        }
+        return render(request, "index.html", context)
 
-def postSlug(request, slug):
-    post = Post.objects.get(slug_post=slug)
-    catagory = Catagory.objects.all()
 
-    template_name = "post-detal.html"
-    return render(request,template_name, {
-        "post":post,
-        "catagory":catagory
-    })
+class PostDetial(View):
+    def get(self, request, slug):
+        category = Category.objects.all()
+        post = get_object_or_404(Post, slug_post=slug)
+
+        context = {
+            "post": post,
+            "category": category
+        }
+        return render(request, "post-detal.html", context)

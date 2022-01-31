@@ -1,30 +1,40 @@
 from django.db import models
 from django.urls import reverse
+from django.utils.text import slugify
 
 
-class Catagory(models.Model):
-    catagory = models.CharField(max_length=50)
-    slug_catagory = models.SlugField(default = "", null=False, db_index=True)
+class Category(models.Model):
+    category = models.CharField(max_length=50)
+    slug_category = models.SlugField(blank=True, null=True, db_index=True)
 
-    # def get_url(self):
-    #     return reverse("catagory", args = [self.slug_catagory])
+    def save(self, *args, **kwargs):
+        self.slug_category = slugify(self.category)
+        super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse("category", kwargs={'slug': self.slug_category})
 
     def __str__(self):
-        return self.catagory
+        return self.category
+
+    class Meta:
+        verbose_name_plural = 'Categories'
+        verbose_name = 'Category'
     
 
 class Post(models.Model):
     title = models.CharField(max_length=50)
-    catagory = models.ForeignKey(Catagory, on_delete=models.CASCADE, related_name="catagoriyalar")
-    describetion = models.TextField()
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name="categories")
+    description = models.TextField()
     image = models.ImageField(upload_to="post_image")
-    slug_post = models.SlugField(default = "", null=False, db_index=True)
+    slug_post = models.SlugField(blank=True, null=True, db_index=True)
 
-    def get_url(self):
-        return reverse("post", args = [self.slug_post])
-    
-    def get_url_post(self):
-        return reverse("catagory", args = [self.catagory])
+    def save(self, *args, **kwargs):
+        self.slug_post = slugify(self.title)
+        super().save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        return reverse("post-detail", kwargs={'slug': self.slug_post})
 
     def __str__(self):
         return self.title

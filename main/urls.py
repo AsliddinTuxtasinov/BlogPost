@@ -1,11 +1,9 @@
 from django.urls import path
-from main.views import index, postSlug, catagorySlug, search
+from .views import Homepage, PostDetial, HompageViaCategoryView
+
 
 urlpatterns = [
-    path('', index, name="index"),
-    path('search/',search,name="search_post"),
-    path('catagory/<str:slug>', catagorySlug, name="catagory"),
-    path('post/<slug:slug>', postSlug, name="post"),
-
-
+    path('', Homepage.as_view(), name="index"),
+    path('category/<slug:slug>', HompageViaCategoryView.as_view(), name="category"),
+    path('post/<slug:slug>', PostDetial.as_view(), name="post-detail"),
 ]

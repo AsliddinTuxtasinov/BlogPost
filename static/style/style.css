@@ -4,11 +4,25 @@
 }
 body{
     background-color: rgba(63, 70, 77, 0.582);
+    /*border: 1px solid red;*/
+
 }
 
-main .container{
-    margin: 10px auto;
+header{
+    border: 1px solid black;
 }
+
+main{
+    border: 1px solid blue;
+    width: 100%;
+    min-height: 85vh;
+}
+main .row{
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
 main .container .row{
     text-align: center;
     display: flex;
@@ -17,7 +31,14 @@ main .container .row{
 main .container .card{
     margin: 5px;
 }
-footer .container .foot{
+
+footer{
+    border: 1px solid red;
+    width: 100%;
+    height: 45px;
+}
+footer .foot{
+    height: 100%;
     text-align: center;
     font: bold;
     color: aliceblue;
