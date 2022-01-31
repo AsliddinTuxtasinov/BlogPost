@@ -43,7 +43,7 @@
                                 </ul>
                             </li>
                         </ul>
-                        <form class="d-flex" method="GET">
+                        <form class="d-flex" method="GET" action="{% url 'index' %}">
                             <input class="form-control me-2" type="search" placeholder="search..." aria-label="Search" name="q" value="{{ search_query }}">
                             <button class="btn btn-outline-success" type="submit">Search</button>
                         </form>
